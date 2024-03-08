@@ -1,18 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
 import { Button } from "@material-tailwind/react";
+import { Header } from "./components/Header/Header";
+import { Clients } from "./components/Clients/Clients";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <p>Luxynema Admin</p>
-      <Button>Button</Button>
+      <Routes>
+        <Route path="/" element={<Header />}></Route>
+        <Route path="/clients" element={<Clients />}></Route>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
