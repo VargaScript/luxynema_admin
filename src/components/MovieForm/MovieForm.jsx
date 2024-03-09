@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
+import {
+  Button,
+  Input,
+  Form,
+  Typography,
+  Textarea,
+} from "@material-tailwind/react";
 
-export const MovieForm = () => {
+export const MovieForm = (props) => {
   const [pelicula, setPelicula] = useState({
     duracion: props.pelicula ? props.pelicula.duracion : "",
     generos: props.pelicula ? props.pelicula.generos : "",
@@ -12,7 +18,6 @@ export const MovieForm = () => {
     precio: props.pelicula ? props.pelicula.precio : "",
     sinopsis: props.pelicula ? props.pelicula.sinopsis : "",
     titulo: props.pelicula ? props.pelicula.titulo : "",
-    precio: props.pelicula ? props.pelicula.precio : "",
   });
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -125,5 +130,123 @@ export const MovieForm = () => {
         break;
     }
   };
-  return <div>MovieForm</div>;
+  return (
+    <>
+      <div className="container">
+        <div className="flex flex-wrap justify-center">
+          <div className="main-form text-white container w-full sm:w-1/2">
+            <Typography className="text-white mt-6" variant="h3">
+              Ingrese los datos de la pelicula
+            </Typography>
+            {errorMsg && <p className="errorMsg">{errorMsg}</p>}
+            <form
+              onSubmit={handleOnSubmit}
+              className="mt-8 mb-2 max-w-screen-lg"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="form-control mb-4" controlId="titulo">
+                  <label className="label">Título de la Película</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="titulo"
+                    value={titulo}
+                    placeholder="Ingrese el título de la película"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="duracion">
+                  <label className="label">Duración</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="duracion"
+                    value={duracion}
+                    placeholder="Ingrese la duración de la película"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="generos">
+                  <label className="label">Géneros</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="generos"
+                    value={generos}
+                    placeholder="Ingrese los géneros de la película"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="horario">
+                  <label className="label">Horario</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="horario"
+                    value={horario}
+                    placeholder="Ingrese el horario de la película"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="img_url">
+                  <label className="label">URL de la Imagen</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="img_url"
+                    value={img_url}
+                    placeholder="Ingrese la URL de la imagen"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="img_url_hd">
+                  <label className="label">URL de la Imagen HD</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="img_url_hd"
+                    value={img_url_hd}
+                    placeholder="Ingrese la URL de la imagen HD"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="precio">
+                  <label className="label">Precio de la Película</label>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    size="lg"
+                    name="precio"
+                    value={precio}
+                    placeholder="Ingrese el precio de la película"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control mb-4" controlId="sinopsis">
+                  <label className="label">Sinopsis</label>
+                  <Textarea
+                    color="blue-gray"
+                    className="input-control"
+                    name="sinopsis"
+                    value={sinopsis}
+                    placeholder="Ingrese la sinopsis de la película"
+                    onChange={handleInputChange}
+                  />
+                  <Button type="submit" color="blue" className="btn-primary">
+                    Añadir Pelicula
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import MovieForm from "../MovieForm/MovieForm";
+import { MovieForm } from "../MovieForm/MovieForm";
 
 export const AddMovie = () => {
   const handleOnSubmit = (movie) => {
