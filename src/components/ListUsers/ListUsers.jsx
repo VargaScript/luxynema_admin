@@ -1,20 +1,23 @@
-import { Card } from '@material-tailwind/react'
-import {useEffect, useState} from 'react'
-import {getAllUsers} from '../../api/users.api'
+import { Card } from '@material-tailwind/react';
+import { useEffect, useState } from 'react';
+import { getAllUsers } from '../../api/users.api';
 
 export const ListUsers = () => {
+  const [users, setUsers] = useState([]);
 
-  const  [users, setUsers] = useState([])
   useEffect(() => {
-    async function loadUsers(){
-      const res = await  getAllUsers();
-      console.log(res)
-      setUsers(res.data)
+    async function loadUsers() {
+      try {
+        const usersData = await getAllUsers();
+        setUsers(usersData);
+      } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+      }
     }
-    loadUsers()
-  },[])
+    loadUsers();
+  }, []);
+
   return (
-    
     <Card className="w-96 ml-4 mb-4">
       <div>
         {users.map(user => (
@@ -23,8 +26,6 @@ export const ListUsers = () => {
           </div>
         ))}
       </div>
-
     </Card>
-
-  )
-}
+  );
+};
