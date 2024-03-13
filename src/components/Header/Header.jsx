@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import {
   List,
   ListItem,
@@ -8,10 +8,12 @@ import {
   Card,
   Typography,
 } from "@material-tailwind/react";
+import { Sidebar } from "../Sidebar/Sidebar";
 
 export const Header = () => {
   return (
     <>
+      <Sidebar />
       <div className="container">
         <Typography variant="h1" color="white" className="text-center">
           Administrar Luxynema
@@ -29,17 +31,19 @@ export const Header = () => {
                 </ListItemPrefix>
 
                 <div>
-                  <Typography variant="h6" color="blue-gray">
-                    Añadir película
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="gray"
-                    className="font-normal"
-                  >
-                    Añade la información de las películas listadas en la app
-                    Luxynema
-                  </Typography>
+                  <Link to="add">
+                    <Typography variant="h6" color="blue-gray">
+                      Añadir película
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="font-normal"
+                    >
+                      Añade la información de las películas listadas en la app
+                      Luxynema
+                    </Typography>
+                  </Link>
                 </div>
               </ListItem>
               <ListItem>
@@ -51,17 +55,19 @@ export const Header = () => {
                   />
                 </ListItemPrefix>
                 <div>
-                  <Typography variant="h6" color="blue-gray">
-                    Ver películas
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="gray"
-                    className="font-normal"
-                  >
-                    Lista, Actualiza, Elimina, las películas añadidas en la app
-                    Luxynema
-                  </Typography>
+                  <Link to="list">
+                    <Typography variant="h6" color="blue-gray">
+                      Ver películas
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="font-normal"
+                    >
+                      Lista, Actualiza, Elimina, las películas añadidas en la
+                      app Luxynema
+                    </Typography>
+                  </Link>
                 </div>
               </ListItem>
             </List>
@@ -79,16 +85,18 @@ export const Header = () => {
                 </ListItemPrefix>
 
                 <div>
-                  <Typography variant="h6" color="blue-gray">
-                    Añadir usuario
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="gray"
-                    className="font-normal"
-                  >
-                    Añade los usuarios para que tengan acceso a Luxynema
-                  </Typography>
+                  <Link to="adduser">
+                    <Typography variant="h6" color="blue-gray">
+                      Añadir usuario
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="font-normal"
+                    >
+                      Añade los usuarios para que tengan acceso a Luxynema
+                    </Typography>
+                  </Link>
                 </div>
               </ListItem>
               <ListItem>
@@ -100,17 +108,19 @@ export const Header = () => {
                   />
                 </ListItemPrefix>
                 <div>
-                  <Typography variant="h6" color="blue-gray">
-                    Ver usuarios
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="gray"
-                    className="font-normal"
-                  >
-                    Lista, Actualiza, Elimina, los usuarios añadidos en la app
-                    Luxynema
-                  </Typography>
+                  <Link to="listusers">
+                    <Typography variant="h6" color="blue-gray">
+                      Ver usuarios
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="font-normal"
+                    >
+                      Lista, Actualiza, Elimina, los usuarios añadidos en la app
+                      Luxynema
+                    </Typography>
+                  </Link>
                 </div>
               </ListItem>
             </List>
