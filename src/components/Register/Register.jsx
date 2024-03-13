@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Login } from "../Login/Login";
+import axios from 'axios'; // Importa Axios
 import { Input, Typography } from "@material-tailwind/react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../credentials";
 import "./Register.css"; // Asegúrate de tener la ruta correcta al archivo CSS
 
 export const Register = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const user = auth.currentUser;
-
-    if (user) {
-      navigate("/home");
-    } else {
-      console.log("Usuario no iniciado");
-    }
-  }, [navigate]);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,14 +21,20 @@ export const Register = () => {
     e.preventDefault();
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log(user);
+      // Enviar datos de registro al backend
+      const response = await axios.post('http://127.0.0.1:8000/register/', {
+        email: email,
+        password: password
+      });
+
+      // Manejar la respuesta del backend según corresponda
+      console.log('Usuario registrado:', response.data);
+
+      // Redirigir al usuario a la página de inicio o a donde sea necesario
       navigate("/add");
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode, errorMessage);
+      // Manejar errores de la solicitud al backend
+      console.error('Error al registrar usuario:', error);
     }
   };
 
@@ -88,7 +81,6 @@ export const Register = () => {
           <p className="text-xl text-black">Already have an account?</p>
           <Link
             to="/login"
-            element={<Login />}
             className="text-xl text-black pl-2 underline cursor-pointer hover:text-[color:var(--azul)] transition-all duration-1500"
           >
             Log In

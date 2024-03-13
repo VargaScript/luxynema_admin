@@ -106,12 +106,10 @@
 //   );
 // };
 
-import { useState, useEffect } from "react";
-import "./Login.css";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios'; // Importa Axios
 import { Register } from "../Register/Register";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../credentials";
 import {
   Card,
   Input,
@@ -124,19 +122,6 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const getToken = () => {
-         return sessionStorage.getItem("token");// O sessionStorage, dependiendo de tus necesidades
-       };
-       console.log(getToken);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-
-    if (user) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -145,19 +130,23 @@ export const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/home");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage, errorCode);
-        console.log(errorMessage);
+  const handleLogin = async () => {
+    try {
+      // Enviar datos de inicio de sesión al backend
+      const response = await axios.post('http://127.0.0.1:8000/login_admin/', {
+        email: email,
+        password: password
       });
+
+      // Manejar la respuesta del backend según corresponda
+      console.log('Inicio de sesión exitoso:', response.data);
+
+      // Redirigir al usuario a la página de inicio o a donde sea necesario
+      navigate("/home");
+    } catch (error) {
+      // Manejar errores de la solicitud al backend
+      console.error('Error al iniciar sesión:', error);
+    }
   };
 
   return (

@@ -1,31 +1,42 @@
-import axios from "axios";
+import axios from 'axios';
 
-// URL del backend para el registro de usuarios
-const registerURL = "http://127.0.0.1:8000/register/";
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-// URL del backend para iniciar sesión
-const loginURL = "http://127.0.0.1:8000/login_admin/";
-
-// Función para registrar un nuevo usuario
-export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(registerURL, userData);
-    console.log("Usuario registrado exitosamente:", response.data);
-    return response.data;
+    // Enviar datos al backend
+    const response = await axios.post('http://127.0.0.1:8000/register/', {
+      email: email,
+      password: password
+    });
+
+    // Manejar la respuesta del backend según corresponda
+    console.log('Usuario registrado:', response.data);
+
+    // Redirigir al usuario a la página de inicio o a donde sea necesario
+    navigate("/add");
   } catch (error) {
-    console.error("Error al registrar usuario:", error);
-    throw new Error("Error al registrar usuario");
+    // Manejar errores de la solicitud al backend
+    console.error('Error al registrar usuario:', error);
   }
 };
 
-// Función para iniciar sesión
-export const loginUser = async (loginData) => {
-  try {
-    const response = await axios.post(loginURL, loginData);
-    console.log("Inicio de sesión exitoso:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error al iniciar sesión:", error);
-    throw new Error("Error al iniciar sesión");
-  }
-};
+
+const handleLogin = async () => {
+    try {
+      // Enviar datos de inicio de sesión al backend
+      const response = await axios.post('http://127.0.0.1:8000/login_admin/', {
+        email: email,
+        password: password
+      });
+  
+      // Manejar la respuesta del backend según corresponda
+      console.log('Inicio de sesión exitoso:', response.data);
+  
+      // Redirigir al usuario a la página de inicio o a donde sea necesario
+      navigate("/home");
+    } catch (error) {
+      // Manejar errores de la solicitud al backend
+      console.error('Error al iniciar sesión:', error);
+    }
+  };
