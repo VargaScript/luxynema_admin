@@ -138,11 +138,26 @@ export const Login = () => {
         password: password
       });
 
-      // Manejar la respuesta del backend según corresponda
-      console.log('Inicio de sesión exitoso:', response.data);
+      console.log(response)
 
-      // Redirigir al usuario a la página de inicio o a donde sea necesario
-      navigate("/home");
+      // Verificar si la solicitud fue exitosa y si hay un token en la respuesta
+      if (response.status === 200 && response.data.idToken) {
+        const token = response.data.token;
+
+        // Guardar el token en el almacenamiento local (localStorage) o en una cookie
+        localStorage.setItem('token', token);
+
+        // Configurar el token para las solicitudes subsiguientes
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+        // Manejar la respuesta del backend según corresponda
+        console.log('Inicio de sesión exitoso:', response.data);
+
+        // Redirigir al usuario a la página de inicio o a donde sea necesario
+        navigate("/home");
+      } else {
+        console.error('Error al iniciar sesión: No se recibió un token en la respuesta');
+      }
     } catch (error) {
       // Manejar errores de la solicitud al backend
       console.error('Error al iniciar sesión:', error);
