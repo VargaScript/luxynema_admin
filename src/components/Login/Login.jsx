@@ -167,6 +167,7 @@ export const Login = () => {
               id="email"
               type="email"
               size="lg"
+              color="white"
               placeholder="email@email.com"
               className=" !border-t-white-200 focus:!border-white"
               labelProps={{
@@ -182,6 +183,7 @@ export const Login = () => {
               id="password"
               type="password"
               size="lg"
+              color="white"
               placeholder="******"
               className=" !border-t-white-200 focus:!border-white"
               labelProps={{
