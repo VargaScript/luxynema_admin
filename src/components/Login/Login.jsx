@@ -137,22 +137,20 @@ export const Login = () => {
         email: email,
         password: password
       });
-
-      console.log(response)
-
+  
       // Verificar si la solicitud fue exitosa y si hay un token en la respuesta
       if (response.status === 200 && response.data.idToken) {
-        const token = response.data.token;
-
-        // Guardar el token en el almacenamiento local (localStorage) o en una cookie
-        localStorage.setItem('token', token);
-
+        const token = response.data.idToken; // Obtener el token de la respuesta
+  
+        // Guardar el token en el almacenamiento local (localStorage)
+        localStorage.setItem('idToken', token); // Almacena el token en localStorage con el nombre 'idToken'
+  
         // Configurar el token para las solicitudes subsiguientes
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-        // Manejar la respuesta del backend según corresponda
-        console.log('Inicio de sesión exitoso:', response.data);
-
+  
+        // Agregar este console.log para mostrar la información recibida al iniciar sesión
+        console.log("Información recibida al iniciar sesión:", response.data);
+  
         // Redirigir al usuario a la página de inicio o a donde sea necesario
         navigate("/home");
       } else {
@@ -163,6 +161,7 @@ export const Login = () => {
       console.error('Error al iniciar sesión:', error);
     }
   };
+  
 
   return (
     <div className="text-center background-image">

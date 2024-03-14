@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Obtener el token almacenado (asegúrate de implementar esta función)
 const getToken = () => {
   const token = sessionStorage.getItem("idToken");
   console.log("Token recuperado:", token);
@@ -16,12 +15,11 @@ export const getUserInfo = async () => {
   }
 
   const axiosInstance = axios.create({
-    baseURL: "http://127.0.0.1:8000/login_admin/",
+    baseURL: "http://127.0.0.1:8000/",
   });
 
   axiosInstance.interceptors.request.use(
     (config) => {
-      // Agregar el token a las solicitudes salientes
       config.headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -35,11 +33,50 @@ export const getUserInfo = async () => {
   );
 
   try {
-    const response = await axiosInstance.get("/user_info/");
-    console.log("Información del usuario recuperada:", response.data); // Verifica si la información del usuario se está recuperando correctamente
+    const response = await axiosInstance.get("/users/");
+    console.log("Información del usuario recuperada:", response.data);
+
+    // Agregar console.log para mostrar el token recibido en la respuesta
+    console.log("Token recibido en la respuesta:", response.data.idToken);
+
     return response.data;
   } catch (error) {
-    console.error("Error al obtener información del usuario:", error); // Verifica si hay errores al obtener la información del usuario
+    console.error("Error al obtener información del usuario:", error);
     throw new Error("Error al obtener información del usuario");
+  }
+};
+
+export const deleteUser = async (userId) => {
+  const token = getToken();
+
+  if (!token) {
+    console.error("No hay token disponible");
+    throw new Error("No hay token disponible");
+  }
+
+  const axiosInstance = axios.create({
+    baseURL: "http://127.0.0.1:8000/",
+  });
+
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      config.headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      console.log("Solicitud saliente con token:", config);
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  try {
+    await axiosInstance.delete(`/users/${userId}`);
+    console.log("Usuario eliminado correctamente");
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    throw new Error("Error al eliminar usuario");
   }
 };
