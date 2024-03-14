@@ -1,6 +1,7 @@
 import { Card } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
-import { getAllUsers } from '../../api/users.api';
+import { getUserInfo } from '../../api/users.api';
+
 
 export const ListUsers = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,7 @@ export const ListUsers = () => {
   useEffect(() => {
     async function loadUsers() {
       try {
-        const usersData = await getAllUsers();
+        const usersData = await getUserInfo();
         setUsers(usersData);
       } catch (error) {
         console.error('Error al cargar usuarios:', error);
