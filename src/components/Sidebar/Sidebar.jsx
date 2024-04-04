@@ -1,4 +1,5 @@
-import React from "react";
+import { useState } from "react";
+import "./Sidebar.css";
 import {
   IconButton,
   Typography,
@@ -8,8 +9,6 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
-  Alert,
-  Input,
   Drawer,
   Card,
 } from "@material-tailwind/react";
@@ -17,30 +16,49 @@ import { PresentationChartBarIcon, PowerIcon } from "@heroicons/react/24/solid";
 import {
   ChevronRightIcon,
   ChevronDownIcon,
-  CubeTransparentIcon,
-  MagnifyingGlassIcon,
   Bars3Icon,
-  XMarkIcon,
   UserCircleIcon
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { auth, firestore } from "../../utils/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export const Sidebar = () => {
-  const [open, setOpen] = React.useState(0);
-  const [openAlert, setOpenAlert] = React.useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+  const [openMovies, setOpenMovies] = useState(false);
+  const [openUsers, setOpenUsers] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [sesionIniciada, setSesionIniciada] = useState(false);
+  const navigate = useNavigate();
 
-  const handleOpen = (value) => {
-    setOpen(open === value ? 0 : value);
+
+  const handleToggleMovies = () => {
+    setOpenMovies(!openMovies);
+  };
+
+  const handleToggleUsers = () => {
+    setOpenUsers(!openUsers);
   };
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
 
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      setSesionIniciada(false);
+      console.log("Logout clicked");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
+
   return (
     <>
       <IconButton variant="text" color="white" size="lg" onClick={openDrawer}>
         {isDrawerOpen ? (
-          <XMarkIcon className="h-8 w-8 stroke-2" />
+          <div/>
         ) : (
           <Bars3Icon className="h-8 w-8 stroke-2" />
         )}
@@ -52,103 +70,108 @@ export const Sidebar = () => {
           className="h-[calc(100vh-2rem)] w-full p-4"
         >
           <div className="mb-2 flex items-center gap-4 p-4">
-          
-            <Typography variant="h5" color="blue-gray">
-              Luxynema Administrativo 
+            <Link to="/home" className="hover:text-[color:var(--azul-fuerte)] duration-300">
+            <Typography variant="h5">
+              Luxynema Administrative 
             </Typography>
+            </Link>
           </div>
-
           <List>
-            <Accordion
-              open={open === 1}
+            <Accordion 
+            open={openMovies}
               icon={
                 <ChevronDownIcon
                   strokeWidth={2.5}
                   className={`mx-auto h-4 w-4 transition-transform ${
-                    open === 1 ? "rotate-180" : ""
+                    openMovies ? "rotate-180" : ""
                   }`}
                 />
               }
+              onClick={handleToggleMovies}
             >
-              <ListItem className="p-0" selected={open === 1}>
-                <AccordionHeader
-                  onClick={() => handleOpen(1)}
-                  className="border-b-0 p-3"
-                >
+              <ListItem className="p-0">
+                <AccordionHeader className="b-0 p-3 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                   <ListItemPrefix>
                     <PresentationChartBarIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="mr-auto font-normal">
-                    Peliculas
+                    Movies
                   </Typography>
                 </AccordionHeader>
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem>
+                    <Link to="/all-movies">
+                  <ListItem className="border-b-0 pl-5 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Ver peliculas
+                    See All Movies
                   </ListItem>
-                  <ListItem>
+                    </Link>
+                  <ListItem className="border-b-0 pl-5 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Añadir Pelicula
+                    <Link to="/add-movies">
+                    Add Movie
+                    </Link>
                   </ListItem>
                 </List>
               </AccordionBody>
             </Accordion>
-
             <Accordion
-              open={open === 1}
+              open={openUsers}
               icon={
                 <ChevronDownIcon
                   strokeWidth={2.5}
                   className={`mx-auto h-4 w-4 transition-transform ${
-                    open === 1 ? "rotate-180" : ""
+                    openUsers ? "rotate-180" : ""
                   }`}
                 />
               }
+              onClick={handleToggleUsers}
             >
-              <ListItem className="p-0" selected={open === 1}>
-                <AccordionHeader
-                  onClick={() => handleOpen(1)}
-                  className="border-b-0 p-3"
-                >
+              <ListItem className="p-0">
+                <AccordionHeader className="b-0 p-3 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                   <ListItemPrefix>
                     <UserCircleIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="mr-auto font-normal">
-                    Usuarios
+                    Users
                   </Typography>
                 </AccordionHeader>
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem>
+                  <ListItem className="border-b-0 pl-5 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Ver usuario
+                    <Link to="/see-users">
+                    See All Users
+                    </Link>
                   </ListItem>
-                  <ListItem>
+                  <ListItem className="border-b-0 pl-5 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Añadir usuario
+                    <Link to="/add-users">
+                    Add Admin User
+                    </Link>
                   </ListItem>
                 </List>
               </AccordionBody>
             </Accordion>
 
             <hr className="my-2 border-blue-gray-50" />
-            <ListItem>
+            <ListItem className="text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
               <ListItemPrefix>
                 <PowerIcon className="h-5 w-5" />
               </ListItemPrefix>
+              <div onClick={handleLogout}>
               Log out
+              </div>
             </ListItem>
           </List>
         </Card>
