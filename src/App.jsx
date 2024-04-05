@@ -1,14 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Home } from "./components/Home/Home"
+import { Home } from "./components/Home/Home";
 import { AddMovies } from "./components/AddMovies/AddMovies";
-import { AddUser } from "./components/AddUser/Adduser";
+import { AddUser } from "./components/AddUser/AddUser";
 import { ListMovies } from "./components/ListMovies/ListMovies";
 /*
 import { Clients } from "./components/Clients/Clients";
-import { Register } from "./components/Register/Register";
 import { ListUsers } from "./components/ListUsers/ListUsers"; */
-
 
 function App() {
   return (
