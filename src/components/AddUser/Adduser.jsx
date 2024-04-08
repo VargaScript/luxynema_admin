@@ -17,14 +17,14 @@ import "react-toastify/dist/ReactToastify.css";
 export const AddUser = () => {
   const [loader, setLoader] = useState(true);
   const [user, setUser] = useState({
-    username: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
     isSuperuser: false,
   });
 
-  const { username, email, password, confirmPassword, isSuperuser } = user;
+  const { userName, email, password, confirmPassword, isSuperuser } = user;
 
   useEffect(() => {
     const asyncLoader = async () => {
@@ -52,7 +52,7 @@ export const AddUser = () => {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
-    const values = [username, email, password, confirmPassword];
+    const values = [userName, email, password, confirmPassword];
 
     const allFieldsFilled = values.every((field) => {
       const value = `${field}`.trim();
@@ -82,7 +82,7 @@ export const AddUser = () => {
         } else {
           const userData = {
             id: uuidv4(),
-            username,
+            userName,
             email,
             password,
             isSuperuser,
@@ -92,7 +92,7 @@ export const AddUser = () => {
 
           toast.success("User added successfully.");
           setUser({
-            username: "",
+            userName: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -146,8 +146,8 @@ export const AddUser = () => {
                       variant="outlined"
                       type="text"
                       size="lg"
-                      name="username"
-                      value={username}
+                      name="userName"
+                      value={userName}
                       onChange={handleInputChange}
                       color="white"
                       label="Username"
