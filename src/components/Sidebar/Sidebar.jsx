@@ -64,7 +64,7 @@ export const Sidebar = () => {
           className="h-[calc(100vh-2rem)] w-full p-4"
         >
           <Link
-            to="/home"
+            to="/home-a"
             className="hover:text-[color:var(--azul-fuerte)] duration-300"
           >
             <div className="mb-2 flex items-center gap-4 p-4">
@@ -72,7 +72,7 @@ export const Sidebar = () => {
             </div>
           </Link>
           <List>
-            <Link to="/home">
+            <Link to="/home-a">
               <ListItem className="px-3 py-3 rounded-none b-0 p-3 text-[color:var(--azul-fuerte)] hover:bg-[color:var(--azul-claro)] hover:text-[color:var(--azul-fuerte)] duration-300">
                 <ListItemPrefix>
                   <UserCircleIcon className="h-5 w-5" />
